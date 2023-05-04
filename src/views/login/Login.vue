@@ -16,9 +16,7 @@
       <!-- password -->
       <el-form-item>
         <span class="svg-container">
-          <el-icon>
-            <Avatar />
-          </el-icon>
+          <SvgIcon icon="https://res.lgdsunday.club/user.svg" />
         </span>
         <el-input placeholder="password" name="password"></el-input>
         <span class="show-pwd">
@@ -37,6 +35,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Avatar } from '@element-plus/icons-vue'
+
+import SvgIcon from '@/components/SvgIcon/index.vue'
+
 const username = ref('')
 </script>
 
@@ -68,18 +69,19 @@ $cursor: #fff;
     }
 
     ::v-deep .el-input {
-      // display: inline-block;
       height: 47px;
       width: 85%;
-      border: 1px solid rgba(0, 0, 0, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
 
       .el-input__wrapper {
         background: transparent;
+        // border: 1px solid rgba(255, 255, 255, 0.1);
 
         input {
-          // background: transparent;
+          background: transparent;
           border: none;
           -webkit-appearance: none;
+          // border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 1px;
           padding: 12px 5px 12px 15px;
           color: $light_gray;
@@ -87,6 +89,7 @@ $cursor: #fff;
           caret-color: $cursor;
         }
       }
+
     }
 
   }
