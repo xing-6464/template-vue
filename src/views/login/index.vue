@@ -1,27 +1,29 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form">
+    <el-form class="login-form" :model="loginForm" :rules="loginRules">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
       <!-- username -->
-      <el-form-item>
+      <el-form-item prop="username">
         <span class="svg-container">
           <el-icon>
-            <Avatar />
+            <User />
           </el-icon>
         </span>
-        <el-input placeholder="username" v-model="username" name="username"></el-input>
+        <el-input placeholder="username" v-model="loginForm.username" name="username" type="text"></el-input>
       </el-form-item>
       <!-- password -->
-      <el-form-item>
+      <el-form-item prop="password">
         <span class="svg-container">
-          <SvgIcon icon="https://res.lgdsunday.club/user.svg" />
+          <el-icon>
+            <Lock />
+          </el-icon>
         </span>
-        <el-input placeholder="password" name="password"></el-input>
+        <el-input placeholder="password" v-model="loginForm.password" name="password"></el-input>
         <span class="show-pwd">
           <el-icon>
-            <Avatar />
+            <Key />
           </el-icon>
         </span>
       </el-form-item>
@@ -34,11 +36,38 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Avatar } from '@element-plus/icons-vue'
+import type { FormRules } from 'element-plus'
+import { validatePassword } from './rules'
 
-import SvgIcon from '@/components/SvgIcon/index.vue'
+type LoginForm = {
+  username: string
+  password: string
+}
 
-const username = ref('')
+// 数据源
+const loginForm = ref<LoginForm>({
+  username: 'super-admin',
+  password: '123456'
+})
+
+// 验证规则
+const loginRules = ref<FormRules>({
+  username: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '用户名为必填项'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'blur',
+      validator: validatePassword()
+    }
+  ]
+})
+
 </script>
 
 <style lang="scss" scoped>
@@ -71,23 +100,18 @@ $cursor: #fff;
     ::v-deep .el-input {
       height: 47px;
       width: 85%;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      // border: 1px solid rgba(255, 255, 255, 0.1);
 
-      .el-input__wrapper {
+      input {
         background: transparent;
+        border: none;
+        -webkit-appearance: none;
         // border: 1px solid rgba(255, 255, 255, 0.1);
-
-        input {
-          background: transparent;
-          border: none;
-          -webkit-appearance: none;
-          // border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 1px;
-          padding: 12px 5px 12px 15px;
-          color: $light_gray;
-          height: 47px;
-          caret-color: $cursor;
-        }
+        border-radius: 1px;
+        padding: 12px 5px 12px 15px;
+        color: $light_gray;
+        height: 47px;
+        caret-color: $cursor;
       }
 
     }
