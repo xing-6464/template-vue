@@ -20,11 +20,9 @@
             <Lock />
           </el-icon>
         </span>
-        <el-input placeholder="password" v-model="loginForm.password" name="password"></el-input>
-        <span class="show-pwd">
-          <el-icon>
-            <Key />
-          </el-icon>
+        <el-input placeholder="password" v-model="loginForm.password" name="password" :type="passwordText"></el-input>
+        <span class="show-pwd" @click="onChangePwdType">
+          <i class="iconfont" :class="iconEyeClass"></i>
         </span>
       </el-form-item>
 
@@ -35,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { FormRules } from 'element-plus'
 import { validatePassword } from './rules'
 
@@ -67,6 +65,16 @@ const loginRules = ref<FormRules>({
     }
   ]
 })
+
+// 处理密码框文本显示
+const passwordText = ref<'password' | 'text'>('password')
+const iconEyeClass = computed(() => {
+  return passwordText.value === 'text' ? 'icon-eye' : 'icon-no_eye'
+})
+
+function onChangePwdType() {
+  passwordText.value = passwordText.value === 'password' ? 'text' : 'password'
+}
 
 </script>
 
