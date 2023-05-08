@@ -11,8 +11,13 @@ import './promission'
 
 import '@/styles/index.scss'
 import installIcons from '@/icons'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 const app = createApp(App)
+
+app.use(ElementPlus, {
+  locale: zhCn
+})
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -22,6 +27,5 @@ installIcons(app)
 
 app.use(createPinia())
 app.use(router)
-app.use(ElementPlus)
 
 app.mount('#app')
