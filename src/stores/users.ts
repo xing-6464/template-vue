@@ -17,5 +17,5 @@ export const useUserStore = defineStore('user', () => {
     token.value = payload
     setItem(TOKEN_KEY, token.value)
   }
-  return { login, setToken }
+  return { token, login, setToken }
 })
