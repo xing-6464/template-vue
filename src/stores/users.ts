@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import http from '@/utils/request'
@@ -8,14 +8,32 @@ import { TOKEN_KEY } from '@/constant'
 
 export const useUserStore = defineStore('user', () => {
   const token = ref<string>(getItem(TOKEN_KEY) || '')
+  const userInfo = ref({})
 
+  const hasUserInfo = computed(() => {
+    return JSON.stringify(userInfo) !== '{}'
+  })
+
+  // 登录
   function login(loginForm: LoginForm) {
     return http.post('/login', loginForm)
   }
 
+  // 设置token
   function setToken(payload: string) {
     token.value = payload
     setItem(TOKEN_KEY, token.value)
   }
-  return { token, login, setToken }
+  // 设置用户信息
+  function setUserInfo(payload: any) {
+    userInfo.value = payload
+  }
+  // 获取用户信息
+  async function getUserInfo() {
+    const { data } = await http.post('/profile')
+    setUserInfo(data)
+    return data
+  }
+
+  return { token, userInfo, hasUserInfo, login, setToken, getUserInfo, setUserInfo }
 })
