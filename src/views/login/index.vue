@@ -35,8 +35,9 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { validatePassword } from './rules'
 import { useUserStore } from '@/stores/users'
+import { useRouter } from 'vue-router'
+import { validatePassword } from './rules'
 
 export type LoginForm = {
   username: string
@@ -65,6 +66,7 @@ const loginRules = ref<FormRules>({
     }
   ]
 })
+const router = useRouter()
 
 // 处理密码框文本显示
 const passwordText = ref<'password' | 'text'>('password')
@@ -84,8 +86,10 @@ function handleLogin() {
     if (!valid) return
     loading.value = true
     useUserStore().login(loginForm.value).then((res) => {
-      console.log(res.data.data)
-      useUserStore().setToken(res.data.data)
+      console.log(res)
+      useUserStore().setToken(res.data)
+      // 跳转
+      router.push('/')
       loading.value = false
     }).catch(err => {
       console.log(err)

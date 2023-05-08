@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
+import { ElMessage } from 'element-plus'
 
 interface Data {
   [index: string]: unknown
@@ -9,6 +10,23 @@ const instance = axios.create({
   // baseURL: 'https://api.imooc-admin.lgdsunday.cloud/api',
   timeout: 5000
 })
+
+// 响应拦截器
+instance.interceptors.response.use(
+  (response) => {
+    const { success, message } = response.data
+    if (success) {
+      return response.data
+    } else {
+      ElMessage.error(message)
+      return Promise.reject(new Error(message))
+    }
+  },
+  (error) => {
+    ElMessage.error(error.message)
+    return Promise.reject(error)
+  }
+)
 
 interface Http {
   get: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
