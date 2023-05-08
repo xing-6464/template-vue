@@ -81,7 +81,6 @@ function onChangePwdType() {
 const loading = ref(false)
 const loginFormRef = ref<FormInstance>()
 function handleLogin() {
-  console.log(loginFormRef.value)
   loginFormRef.value?.validate(valid => {
     if (!valid) return
     loading.value = true
@@ -89,8 +88,10 @@ function handleLogin() {
       console.log(res)
       useUserStore().setToken(res.data)
       // 跳转
-      router.push('/')
-      loading.value = false
+      useUserStore().getUserInfo().then(() => {
+        router.push('/')
+        loading.value = false
+      })
     }).catch(err => {
       console.log(err)
       loading.value = false

@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import http from '@/utils/request'
 import type { LoginForm } from '@/views/login/index.vue'
 import { setItem, getItem, removeAllItems } from '@/utils/storage'
-import { TOKEN_KEY } from '@/constant'
+import { TOKEN_KEY, USER_INFO_KEY } from '@/constant'
 import router from '@/router'
 
 interface userInfo {
@@ -13,11 +13,7 @@ interface userInfo {
 
 export const useUserStore = defineStore('user', () => {
   const token = ref<string>(getItem(TOKEN_KEY) || '')
-  const userInfo = ref<userInfo>({})
-
-  const hasUserInfo = computed(() => {
-    return JSON.stringify(userInfo) !== '{}'
-  })
+  const userInfo = ref<userInfo>(getItem(USER_INFO_KEY) || {})
 
   // 登录
   function login(loginForm: LoginForm) {
@@ -34,11 +30,12 @@ export const useUserStore = defineStore('user', () => {
   // 设置token
   function setToken(payload: string) {
     token.value = payload
-    setItem(TOKEN_KEY, token.value)
+    setItem(TOKEN_KEY, payload)
   }
   // 设置用户信息
   function setUserInfo(payload: any) {
     userInfo.value = payload
+    setItem(USER_INFO_KEY, payload)
   }
   // 获取用户信息
   async function getUserInfo() {
@@ -47,5 +44,5 @@ export const useUserStore = defineStore('user', () => {
     return data
   }
 
-  return { token, userInfo, hasUserInfo, login, setToken, getUserInfo, setUserInfo, logout }
+  return { token, userInfo, login, setToken, getUserInfo, setUserInfo, logout }
 })

@@ -25,11 +25,13 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/users';
+import { storeToRefs } from 'pinia';
 
-const { userInfo, logout } = useUserStore()
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 
 function handleLogout() {
-  logout()
+  userStore.logout()
 }
 </script>
 

@@ -15,6 +15,9 @@ export function setItem(key: string, value: any): void {
 export function getItem(key: string) {
   const data = window.localStorage.getItem(key)
   try {
+    if (key === 'token') {
+      return data
+    }
     return JSON.parse(data!)
   } catch (e: any) {
     return e.message

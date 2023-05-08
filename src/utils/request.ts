@@ -1,6 +1,8 @@
 import { useUserStore } from '@/stores/users'
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { getItem } from './storage'
 
 interface Data {
   [index: string]: unknown
@@ -15,9 +17,10 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
-    const { token } = useUserStore()
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+    const userStore = useUserStore()
+    const { token } = storeToRefs(userStore)
+    if (token.value) {
+      config.headers.Authorization = `Bearer ${token.value}`
     }
     return config
   },
