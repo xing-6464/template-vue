@@ -6,9 +6,13 @@ import type { LoginForm } from '@/views/login/index.vue'
 import { setItem, getItem } from '@/utils/storage'
 import { TOKEN_KEY } from '@/constant'
 
+interface userInfo {
+  [index: string]: string | number
+}
+
 export const useUserStore = defineStore('user', () => {
   const token = ref<string>(getItem(TOKEN_KEY) || '')
-  const userInfo = ref({})
+  const userInfo = ref<userInfo>({})
 
   const hasUserInfo = computed(() => {
     return JSON.stringify(userInfo) !== '{}'
@@ -31,7 +35,7 @@ export const useUserStore = defineStore('user', () => {
   // 获取用户信息
   async function getUserInfo() {
     const { data } = await http.post('/profile')
-    setUserInfo(data)
+    setUserInfo(data.user)
     return data
   }
 
