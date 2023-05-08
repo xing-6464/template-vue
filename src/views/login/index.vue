@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" :model="loginForm" :rules="loginRules">
+    <el-form class="login-form" ref="loginFormRef" :model="loginForm" :rules="loginRules">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
@@ -27,27 +27,27 @@
       </el-form-item>
 
       <!-- 登录按钮 -->
-      <el-button style="width: 100%; margin-bottom: 30px;" type="primary">登录</el-button>
+      <el-button style="width: 100%; margin-bottom: 30px;" type="primary" @click="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import type { FormRules } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 import { validatePassword } from './rules'
+import { useUserStore } from '@/stores/users'
 
-type LoginForm = {
+export type LoginForm = {
   username: string
   password: string
 }
 
 // 数据源
 const loginForm = ref<LoginForm>({
-  username: 'super-admin',
-  password: '123456'
+  username: 'admin',
+  password: 'admin'
 })
-
 // 验证规则
 const loginRules = ref<FormRules>({
   username: [
@@ -71,9 +71,28 @@ const passwordText = ref<'password' | 'text'>('password')
 const iconEyeClass = computed(() => {
   return passwordText.value === 'text' ? 'icon-eye' : 'icon-no_eye'
 })
-
 function onChangePwdType() {
   passwordText.value = passwordText.value === 'password' ? 'text' : 'password'
+}
+
+// 登录处理
+const loading = ref(false)
+const loginFormRef = ref<FormInstance>()
+function handleLogin() {
+  console.log(loginFormRef.value)
+  loginFormRef.value?.validate(valid => {
+    if (!valid) return
+    loading.value = true
+    useUserStore().login(loginForm.value).then((res) => {
+      console.log(res.data.data)
+      useUserStore().setToken(res.data.data)
+      loading.value = false
+    }).catch(err => {
+      console.log(err)
+      loading.value = false
+    })
+  })
+
 }
 
 </script>
