@@ -3,8 +3,9 @@ import { defineStore } from 'pinia'
 
 import http from '@/utils/request'
 import type { LoginForm } from '@/views/login/index.vue'
-import { setItem, getItem } from '@/utils/storage'
+import { setItem, getItem, removeAllItems } from '@/utils/storage'
 import { TOKEN_KEY } from '@/constant'
+import router from '@/router'
 
 interface userInfo {
   [index: string]: string | number
@@ -22,7 +23,14 @@ export const useUserStore = defineStore('user', () => {
   function login(loginForm: LoginForm) {
     return http.post('/login', loginForm)
   }
-
+  // 退出登录
+  async function logout() {
+    await http.post('/logout')
+    setToken('')
+    setUserInfo({})
+    removeAllItems()
+    router.push('/login')
+  }
   // 设置token
   function setToken(payload: string) {
     token.value = payload
@@ -39,5 +47,5 @@ export const useUserStore = defineStore('user', () => {
     return data
   }
 
-  return { token, userInfo, hasUserInfo, login, setToken, getUserInfo, setUserInfo }
+  return { token, userInfo, hasUserInfo, login, setToken, getUserInfo, setUserInfo, logout }
 })

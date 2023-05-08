@@ -15,7 +15,7 @@
             <router-link to="/">
               <el-dropdown-item>主页</el-dropdown-item>
             </router-link>
-            <el-dropdown-item divided>退出登录</el-dropdown-item>
+            <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -26,7 +26,11 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/users';
 
-const { userInfo } = useUserStore()
+const { userInfo, logout } = useUserStore()
+
+function handleLogout() {
+  logout()
+}
 </script>
 
 <style lang="scss" scoped>
