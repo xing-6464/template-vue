@@ -1,5 +1,6 @@
 <template>
   <div class="navbar">
+    <Breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
       <!-- 头像 -->
       <el-dropdown class="avatar-container" trigger="click">
@@ -26,6 +27,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/users';
 import { storeToRefs } from 'pinia';
+import Breadcrumb from '@/components/Breadcrumb/index.vue'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
@@ -42,6 +44,10 @@ function handleLogout() {
   position: relative;
   background-color: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+
+  .breadcrumb-container {
+    float: left;
+  }
 
   .right-menu {
     display: flex;
