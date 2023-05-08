@@ -1,25 +1,36 @@
 <template>
   <div class="tags-view-container">
-    <router-link v-for="tag in tagsViewList" :key="tag.fullPath" class="tags-view-item"
+    <router-link v-for="(tag, index) in tagsViewList" :key="tag.fullPath" class="tags-view-item"
       :class="isActive(tag) ? 'active' : ''" :to="{ path: tag.fullPath }" :style="{
         backgroundColor: isActive(tag) ? styleVal.menuBg : '',
         borderColor: isActive(tag) ? styleVal.menuBg : ''
-      }">
+      }" @contextmenu.prevent="openMenu($event, index)">
       {{ tag.title }}
 
       <el-icon v-show="!isActive(tag)" class="el-icon-close" @click.prevent.stop="onCloseClick">
         <Close />
       </el-icon>
     </router-link>
+
+    <ContextMenu v-show="visible" :index="selectIndex" :style="menuStyle"></ContextMenu>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { useGetters } from '@/stores/getter';
 
+import ContextMenu from './contextMenu.vue';
+
+const visible = ref<boolean>(false)
+const menuStyle = ref({
+  left: '',
+  top: ''
+})
+const selectIndex = ref(0)
 const appStore = useAppStore()
 const getter = useGetters()
 const { tagsViewList } = storeToRefs(appStore)
@@ -32,6 +43,14 @@ function isActive(tag: any) {
 
 function onCloseClick() {
 
+}
+
+function openMenu(e: MouseEvent, index: number) {
+  const { x, y } = e
+  menuStyle.value.left = x + 'px'
+  menuStyle.value.top = y + 'px'
+  selectIndex.value = index
+  visible.value = true
 }
 </script>
 
