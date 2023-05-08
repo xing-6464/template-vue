@@ -4,7 +4,10 @@
     <SideBar class="sidebar-container" :style="{ backgroundColor: '#304156' }"></SideBar>
     <div class="main-container">
       <div class="fixed-header">
+        <!-- navbar -->
         <NavBar />
+        <!-- tags -->
+        <TagsView></TagsView>
       </div>
       <!-- 内容区 -->
       <AppMain></AppMain>
@@ -15,6 +18,7 @@
 <script lang="ts" setup>
 import NavBar from './components/NavBar.vue'
 import AppMain from './components/AppMain.vue'
+import TagsView from '@/components/TagsView/index.vue'
 import SideBar from './components/SideBar/index.vue'
 
 </script>
