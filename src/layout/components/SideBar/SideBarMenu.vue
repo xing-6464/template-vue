@@ -1,20 +1,31 @@
 <template>
-  <el-menu :unique-opened="true" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+  <el-menu :default-active="activeMenu" :unique-opened="true" :background-color="styleVal.menuBg"
+    :text-color="styleVal.menuText" :active-text-color="styleVal.menuActiveText" router>
     <SideBarItem v-for="item in routes" :key="item.path" :route="item" />
   </el-menu>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
-import SideBarItem from './SideBarItem.vue'
 import { generateMenus } from '@/utils/router'
+import SideBarItem from './SideBarItem.vue'
+import { useGetters } from '../../../stores/getter';
 
 const router = useRouter()
 const routes = computed(() => {
   return generateMenus(router.options.routes)
 })
+const { styleVal } = useGetters()
+
+// 默认激活
+const route = useRoute()
+const activeMenu = computed(() => {
+  const { path } = route
+  return path
+})
+
 
 </script>
 

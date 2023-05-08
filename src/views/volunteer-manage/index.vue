@@ -1,5 +1,5 @@
 <template>
-  <div class="">宠物管理</div>
+  <div class="">志愿者管理</div>
 </template>
 
 <script lang="ts" setup>

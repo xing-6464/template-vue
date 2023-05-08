@@ -11,4 +11,8 @@ type MenuItemProps = {
 const props = defineProps<MenuItemProps>()
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.sub-icon {
+  margin-right: 16px;
+}
+</style>
