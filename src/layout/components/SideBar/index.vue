@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    sideBar
     <el-scrollbar>
       <SideBarMenu></SideBarMenu>
     </el-scrollbar>
