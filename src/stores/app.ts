@@ -17,5 +17,17 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  return { tagsViewList, addTagsViewList }
+  function removeTagsView(payload: { type: 'other' | 'right' | 'index'; index: number }) {
+    if (payload.type === 'index') {
+      tagsViewList.value.splice(payload.index, 1)
+    } else if (payload.type === 'right') {
+      tagsViewList.value.splice(payload.index + 1, tagsViewList.value.length - payload.index + 1)
+    } else if (payload.type === 'other') {
+      tagsViewList.value.splice(payload.index + 1, tagsViewList.value.length - payload.index + 1)
+      tagsViewList.value.slice(0, payload.index)
+    }
+    setItem(TAGS_VIEW, tagsViewList.value)
+  }
+
+  return { tagsViewList, addTagsViewList, removeTagsView }
 })

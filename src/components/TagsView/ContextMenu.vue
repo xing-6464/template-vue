@@ -1,3 +1,5 @@
+import { useRoute } from 'vue-router';
+import router from '@/router';
 <template>
   <ul class="context-menu-container">
     <li @click="onRefreshClick">刷新</li>
@@ -7,18 +9,35 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { useAppStore } from '../../stores/app';
+
 
 type ContextMenuProps = {
   index: number
 }
 
-defineProps<ContextMenuProps>()
+const props = defineProps<ContextMenuProps>()
+const router = useRouter()
 
 function onRefreshClick() {
+  router.go(0)
 }
-function onCloseRightClick() { }
+function onCloseRightClick() {
+  console.log(props.index)
+  useAppStore().removeTagsView({
+    type: 'right',
+    index: props.index
+  })
+}
 
-function onCloseOtherClick() { }
+function onCloseOtherClick() {
+  console.log(props.index)
+  useAppStore().removeTagsView({
+    type: 'other',
+    index: props.index
+  })
+}
 </script>
 
 <style lang="scss" scoped>

@@ -7,12 +7,12 @@
       }" @contextmenu.prevent="openMenu($event, index)">
       {{ tag.title }}
 
-      <el-icon v-show="!isActive(tag)" class="el-icon-close" @click.prevent.stop="onCloseClick">
+      <el-icon v-show="!isActive(tag)" class="el-icon-close" @click.prevent.stop="onCloseClick(index)">
         <Close />
       </el-icon>
     </router-link>
 
-    <ContextMenu v-show="visible" :index="selectIndex" :style="menuStyle"></ContextMenu>
+    <ContextMenu v-if="visible" :index="selectIndex" :style="menuStyle"></ContextMenu>
   </div>
 </template>
 
@@ -41,8 +41,11 @@ function isActive(tag: any) {
   return tag.path === route.path
 }
 
-function onCloseClick() {
-
+function onCloseClick(index: number) {
+  appStore.removeTagsView({
+    type: 'index',
+    index,
+  })
 }
 
 function openMenu(e: MouseEvent, index: number) {
