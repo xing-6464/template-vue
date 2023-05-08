@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    layout 页面
+    sideBar
   </div>
 </template>
 
