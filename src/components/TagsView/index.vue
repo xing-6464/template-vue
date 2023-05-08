@@ -12,12 +12,12 @@
       </el-icon>
     </router-link>
 
-    <ContextMenu v-if="visible" :index="selectIndex" :style="menuStyle"></ContextMenu>
+    <ContextMenu v-show="visible" :index="selectIndex" :style="menuStyle"></ContextMenu>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
@@ -36,6 +36,18 @@ const getter = useGetters()
 const { tagsViewList } = storeToRefs(appStore)
 const { styleVal } = storeToRefs(getter)
 const route = useRoute()
+
+watch(visible, val => {
+  if (val) {
+    document.body.addEventListener('click', closeMenu)
+  } else {
+    document.body.removeEventListener('click', closeMenu)
+  }
+})
+
+function closeMenu() {
+  visible.value = false
+}
 
 function isActive(tag: any) {
   return tag.path === route.path
