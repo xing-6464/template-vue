@@ -9,7 +9,7 @@ interface Data {
 }
 
 const instance = axios.create({
-  baseURL: 'http://43.140.200.245:8001/sys',
+  baseURL: 'http://43.140.200.245:8001',
   // baseURL: 'https://api.imooc-admin.lgdsunday.cloud/api',
   timeout: 5000
 })
@@ -47,11 +47,19 @@ instance.interceptors.response.use(
 )
 
 interface Http {
-  get: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
-  post: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
-  put: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
-  patch: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
-  delete: (url: string, data?: Data, config?: AxiosRequestConfig) => Promise<AxiosResponse>
+  get: (url: string, data?: Data | FormData, config?: AxiosRequestConfig) => Promise<AxiosResponse>
+  post: (url: string, data?: Data | FormData, config?: AxiosRequestConfig) => Promise<AxiosResponse>
+  put: (url: string, data?: Data | FormData, config?: AxiosRequestConfig) => Promise<AxiosResponse>
+  patch: (
+    url: string,
+    data?: Data | FormData,
+    config?: AxiosRequestConfig
+  ) => Promise<AxiosResponse>
+  delete: (
+    url: string,
+    data?: Data | FormData,
+    config?: AxiosRequestConfig
+  ) => Promise<AxiosResponse>
 }
 
 const http: Http = {

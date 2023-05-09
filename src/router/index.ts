@@ -60,7 +60,28 @@ const router = createRouter({
         {
           path: '/user/info/:id',
           name: 'userInfo',
-          component: () => import('@/views/user-info/index.vue')
+          props: true,
+          component: () => import('@/views/user-info/index.vue'),
+          meta: {
+            title: '用户详细信息'
+          }
+        },
+        {
+          path: '/user/import',
+          name: 'import',
+          component: () => import('@/views/import/index.vue'),
+          meta: {
+            title: '用户添加'
+          }
+        },
+        {
+          path: '/user/edit/:id',
+          name: 'userEdit',
+          props: true,
+          component: () => import('@/views/user-edit/index.vue'),
+          meta: {
+            title: '用户修改'
+          }
         }
       ]
     },
@@ -78,6 +99,32 @@ const router = createRouter({
           meta: {
             title: '宠物信息',
             icon: 'iconfont icon-pets'
+          }
+        },
+        {
+          path: '/pet/info/:id',
+          name: 'petInfo',
+          props: true,
+          component: () => import('@/views/pet-info/index.vue'),
+          meta: {
+            title: '宠物详细信息'
+          }
+        },
+        {
+          path: '/pet/edit/:id',
+          name: 'petEdit',
+          props: true,
+          component: () => import('@/views/pet-edit/index.vue'),
+          meta: {
+            title: '宠物修改'
+          }
+        },
+        {
+          path: '/pet/import',
+          name: 'petImport',
+          component: () => import('@/views/import/index.vue'),
+          meta: {
+            title: '宠物添加'
           }
         }
       ]
@@ -97,6 +144,23 @@ const router = createRouter({
             title: '志愿者活动信息',
             icon: 'iconfont icon-houtaitubiao-15'
           }
+        },
+        {
+          path: '/volunteer/import',
+          name: 'volunteerImport',
+          component: () => import('@/views/import/index.vue'),
+          meta: {
+            title: '活动创建'
+          }
+        },
+        {
+          path: '/volunteer/edit/:id',
+          name: 'volunteerEdit',
+          props: true,
+          component: () => import('@/views/volunteer-edit/index.vue'),
+          meta: {
+            title: '活动修改'
+          }
         }
       ]
     },
@@ -114,6 +178,14 @@ const router = createRouter({
           meta: {
             title: '轮播图信息',
             icon: 'iconfont icon-picture-add'
+          }
+        },
+        {
+          path: '/picture/import',
+          name: 'pictureImport',
+          component: () => import('@/views/import/index.vue'),
+          meta: {
+            title: '添加轮播图'
           }
         }
       ]
@@ -135,21 +207,21 @@ const router = createRouter({
           }
         },
         {
-          path: '/examine/petexamine',
+          path: '/examine/pet',
           component: () => import('@/views/examine/index.vue'),
           meta: {
             title: '宠物领养审批',
             icon: 'iconfont icon-approve'
           }
-        },
-        {
-          path: '/examine/volunteeractivity',
-          component: () => import('@/views/examine/index.vue'),
-          meta: {
-            title: '志愿者活动审批',
-            icon: 'iconfont icon-ic_examine'
-          }
         }
+        // {
+        //   path: '/examine/volunteeractivity',
+        //   component: () => import('@/views/examine/index.vue'),
+        //   meta: {
+        //     title: '志愿者活动审批',
+        //     icon: 'iconfont icon-ic_examine'
+        //   }
+        // }
       ]
     }
   ]

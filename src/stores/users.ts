@@ -17,15 +17,16 @@ export const useUserStore = defineStore('user', () => {
 
   // 登录
   function login(loginForm: LoginForm) {
-    return http.post('/login', loginForm)
+    return http.post('/sys/login', loginForm)
   }
   // 退出登录
-  async function logout() {
-    await http.post('/logout')
-    setToken('')
-    setUserInfo({})
-    removeAllItems()
-    router.push('/login')
+  function logout() {
+    http.post('/sys/logout').then(() => {
+      setToken('')
+      setUserInfo({})
+      removeAllItems()
+      router.push('/login')
+    })
   }
   // 设置token
   function setToken(payload: string) {
@@ -39,10 +40,14 @@ export const useUserStore = defineStore('user', () => {
   }
   // 获取用户信息
   async function getUserInfo() {
-    const { data } = await http.post('/profile')
+    const { data } = await http.post('/sys/profile')
     setUserInfo(data.user)
     return data
   }
 
-  return { token, userInfo, login, setToken, getUserInfo, setUserInfo, logout }
+  function addUser(payload: any) {
+    return http.post('/sys/user', payload)
+  }
+
+  return { token, userInfo, login, setToken, getUserInfo, setUserInfo, logout, addUser }
 })
