@@ -126,6 +126,15 @@ const router = createRouter({
           meta: {
             title: '宠物添加'
           }
+        },
+        {
+          path: '/pet/images/:id',
+          props: true,
+          name: 'addImages',
+          component: () => import('@/views/pet-images/index.vue'),
+          meta: {
+            title: '宠物图片添加'
+          }
         }
       ]
     },
@@ -200,7 +209,7 @@ const router = createRouter({
       children: [
         {
           path: '/examine/volunteer',
-          component: () => import('@/views/examine/index.vue'),
+          component: () => import('@/views/examine/Examine.vue'),
           meta: {
             title: '志愿者审批',
             icon: 'iconfont icon-ic_approve'
@@ -208,7 +217,7 @@ const router = createRouter({
         },
         {
           path: '/examine/pet',
-          component: () => import('@/views/examine/index.vue'),
+          component: () => import('@/views/examine/pet-examine.vue'),
           meta: {
             title: '宠物领养审批',
             icon: 'iconfont icon-approve'

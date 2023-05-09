@@ -28,7 +28,7 @@
         </el-table-column>
         <el-table-column prop="name" label="名字"></el-table-column>
         <el-table-column prop="type" label="类型"></el-table-column>
-        <el-table-column label="操作" fixed="right" width="400">
+        <el-table-column label="操作" fixed="right" width="450">
           <template #default="{ row }">
             <el-button type="primary" size="small" @click="onShowClick(row.id)">查看</el-button>
             <el-button type="info" size="small" @click="onEditClick(row.id)">修改</el-button>
@@ -37,6 +37,7 @@
               <el-button size="small" @click="handleId(row.id)">更换图片</el-button>
             </el-upload>
             <el-button type="danger" size="small" @click="deleteUser(row)">删除</el-button>
+            <el-button type="warning" size="small" @click="onHandleClick(row)">批量添加图片</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -126,6 +127,12 @@ function handleAddClick() {
 function onEditClick(id: string) {
   http.get(`pet/find/${id}`).then(() => {
     router.push(`/pet/edit/${id}`)
+  })
+}
+
+function onHandleClick(row: any) {
+  http.get(`pet/find/${row.id}`).then(() => {
+    router.push(`/pet/images/${row.id}`)
   })
 }
 </script>
